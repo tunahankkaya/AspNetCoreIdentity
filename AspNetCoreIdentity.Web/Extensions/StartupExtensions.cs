@@ -1,4 +1,5 @@
 ﻿using AspNetCoreIdentity.Web.CustomValidations;
+using AspNetCoreIdentity.Web.Localization;
 using AspNetCoreIdentity.Web.Models;
 
 namespace AspNetCoreIdentity.Web.Extensions;
@@ -20,6 +21,9 @@ public static class StartupExtensions
             options.Password.RequireUppercase = false;
             options.Password.RequireDigit = false;
         })
-            .AddPasswordValidator<PasswordValidator>().AddEntityFrameworkStores<AppDbContext>();
+            .AddPasswordValidator<PasswordValidator>()
+            .AddUserValidator<UserValidator>()
+            .AddErrorDescriber<LocalizationIdentityErrorDescriber>()
+            .AddEntityFrameworkStores<AppDbContext>();
     }
 }
