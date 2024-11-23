@@ -1,6 +1,7 @@
 ﻿using AspNetCoreIdentity.Web.CustomValidations;
 using AspNetCoreIdentity.Web.Localization;
 using AspNetCoreIdentity.Web.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace AspNetCoreIdentity.Web.Extensions;
 
@@ -20,10 +21,16 @@ public static class StartupExtensions
             options.Password.RequireLowercase = true;
             options.Password.RequireUppercase = false;
             options.Password.RequireDigit = false;
+            
+            //başarısız giriş yapıldığında kitlemesi için yapılan ayarlar
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+            options.Lockout.MaxFailedAccessAttempts = 3;
+            
         })
             .AddPasswordValidator<PasswordValidator>()
             .AddUserValidator<UserValidator>()
             .AddErrorDescriber<LocalizationIdentityErrorDescriber>()
+            .AddDefaultTokenProviders()
             .AddEntityFrameworkStores<AppDbContext>();
     }
 }
