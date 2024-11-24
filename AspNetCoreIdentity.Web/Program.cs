@@ -25,6 +25,7 @@ builder.Services.ConfigureApplicationCookie(opt =>
 
     cookieBuilder.Name = "UdemyAppCookie";
     opt.LoginPath = new PathString("/Home/Signin");
+    opt.LogoutPath = new PathString("/Member/logout");
     
     opt.Cookie = cookieBuilder;
     opt.ExpireTimeSpan = TimeSpan.FromDays(60);

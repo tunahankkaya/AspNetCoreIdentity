@@ -14,7 +14,7 @@
         <form asp-controller="Home" asp-action="SignIn" asp-route-returnUrl="@Context.Request.Query["returnURl"]" method="post">
             <div class="mb-3">
                 <label for="Email" class="form-label" asp-for="EMail"></label>
-                <input  class="form-control" asp-for="EMail">
+                <input  value="zehra123@gmail.com" class="form-control" asp-for="EMail">
                 <span class="text-danger" asp-validation-for="EMail"></span>
             </div>
             <div class="mb-3">
