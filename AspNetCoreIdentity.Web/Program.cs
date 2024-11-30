@@ -1,5 +1,9 @@
 using AspNetCoreIdentity.Web.Extensions;
 using AspNetCoreIdentity.Web.Models;
+using AspNetCoreIdentity.Web.OptionsModel;
+using AspNetCoreIdentity.Web.Services.Abstract;
+using AspNetCoreIdentity.Web.Services.Concrete;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.FileProviders;
 
@@ -14,8 +18,20 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 });
 
 builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.GetCurrentDirectory()));
-
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddIdentityWithExtension(); //Identity settings(password - username- email)
+
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+{
+    opt.TokenLifespan = TimeSpan.FromHours(2); //şifre sıfırlama token'i için 2 saatlik bir süre verdik.
+});
+
+builder.Services.Configure<EmailSettings>(opt =>
+{
+    opt.Host = builder.Configuration["EmailSettings:Host"]!;
+    opt.Email = builder.Configuration["EmailSettings:Email"]!;
+    opt.Password = builder.Configuration["EmailSettings:Password"]!;
+});
 
 
 
@@ -46,8 +62,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseAuthentication();
-app.UseAuthorization();
+app.UseAuthentication(); //kimlik doğrulama
+app.UseAuthorization(); //kimlik yetkilendirme
 
 app.MapControllerRoute(
     name: "areas",
