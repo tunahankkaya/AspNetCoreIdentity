@@ -140,7 +140,7 @@ namespace AspNetCoreIdentity.Web.Controllers
             if (userId == null || token == null)
                 throw new Exception("Bir hata meydana geldi");
             
-            var hasUser = await _userManager.FindByIdAsync(userId.ToString());
+            var hasUser = await _userManager.FindByIdAsync(userId.ToString()!);
             if (hasUser == null)
             {
                 ModelState.AddModelError(string.Empty,"Kullanıcı bulunamadı.");

@@ -21,6 +21,11 @@ builder.Services.AddSingleton<IFileProvider>(new PhysicalFileProvider(Directory.
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddIdentityWithExtension(); //Identity settings(password - username- email)
 
+builder.Services.Configure<SecurityStampValidatorOptions>(opt =>
+{
+    opt.ValidationInterval = TimeSpan.FromMinutes(30);
+});
+
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 {
     opt.TokenLifespan = TimeSpan.FromHours(2); //şifre sıfırlama token'i için 2 saatlik bir süre verdik.
